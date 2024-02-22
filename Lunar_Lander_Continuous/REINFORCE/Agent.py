@@ -2,7 +2,7 @@ from typing import Any
 import numpy as np 
 import torch as T
 import torch.nn as nn
-from torch.nn.functional import relu, softmax, softplus
+from torch.nn.functional import relu, softmax, softplus, tanh
 import torch.nn.utils as torch_utils
 
 class PolicyNetwork(nn.Module):
@@ -19,8 +19,8 @@ class PolicyNetwork(nn.Module):
     def forward(self, state):
         x = relu(self.fc1(state))
         x = relu(self.fc2(x))
-        mu = self.mu(x)
-        sigma = softplus(self.sigma(x))
+        x = relu(self.fc2(x))
+        mu = tanh(self.mu(x))
         return mu, sigma
     
 class PolicyGradientAgent():

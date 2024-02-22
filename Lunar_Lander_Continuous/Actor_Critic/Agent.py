@@ -17,7 +17,7 @@ class ActorNetwork(nn.Module):
     def forward(self, state):
         x = F.relu(self.fc1(state))
         x = F.relu(self.fc2(x))
-        mu = self.mu(x)
+        mu = F.tanh(self.mu(x))
         sigma = F.softplus(self.sigma(x))
         return mu, sigma
 
